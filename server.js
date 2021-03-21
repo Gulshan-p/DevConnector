@@ -7,7 +7,7 @@ const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const app = express();
 //passport config
-app.use(Passport.initialize());
+app.use(passport.initialize());
 require('./config/passport')(passport)
 //body-parser-config using express
 app.use(express.urlencoded({extended: false}));
