@@ -6,6 +6,7 @@ const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 // Load Validation
 const validateProfileInput = require("../../validation/profile");
+const validateExperienceInput = require("../../validation/experience");
 //dummy test
 //router.get('/test', (req,res) => res.json({msg: 'profile works.'}));
 
@@ -24,7 +25,7 @@ router.post(
       return res.status(400).json(errors);
     }
     //end of validation
-    //get data
+    //get data fields
     const profileFields = {};
     profileFields.user = req.user.id;
     if(req.body.handle) profileFields.handle = req.body.handle;
@@ -34,6 +35,7 @@ router.post(
     if(req.body.bio) profileFields.bio = req.body.bio;
     if(req.body.status) profileFields.status = req.body.status;
     if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
+    // if (typeof req.body.skills !== "undefined") can use this
     if(req.body.skills){
       profileFields.skills = req.body.skills.split(",");
     }
@@ -58,11 +60,13 @@ router.post(
       }
       else{
         //create profile
+        //check if handle already exsist.
         Profile.findOne({handle: profileFields.handle})
         .then(profile => {
           if(profile){
             return res.status(400).json({handle: "handle already exsists"});
           }
+          //save profile
            new Profile(profileFields)
           .save()
           .then(profile => res.json(profile));
@@ -72,6 +76,43 @@ router.post(
     .catch(err => console.log(err));
 
   });
+
+// @route   POST api/profile/experience
+// @desc    Add experience to profile
+// @access  Private
+  router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateExperienceInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id }).then((profile) => {
+      if (!profile) {
+        errors.noprofile = "There is no profile for this user";
+        return res.status(404).json(errors);
+      }
+      const newExp = {
+        title: req.body.title,
+        company: req.body.company,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description,
+      };
+
+      // Add to exp array
+      profile.experience.unshift(newExp);
+      profile.save().then((profile) => res.json(profile));
+    });
+  }
+);
 
 //export
 module.exports = router;
