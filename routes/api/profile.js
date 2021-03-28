@@ -11,6 +11,48 @@ const validateEducationInput = require("../../validation/education");
 //dummy test
 //router.get('/test', (req,res) => res.json({msg: 'profile works.'}));
 
+// @route   GET api/profile
+// @desc    Get current users profile
+// @access  Private
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+   //find profile and grab the name and avatar from user collection by id
+    Profile.findOne({ user: req.user.id })
+    //.populate command will add more information from reference
+      .populate("user", ["name", "avatar"])
+      .then((profile) => {
+        if (!profile) {
+          errors.noprofile = "There is no profile for this user";
+          return res.status(404).json(errors);
+        }
+        res.json(profile);
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Public
+router.get("/all", (req, res) => {
+  const errors = {};
+//.find() will find and fetch all the profiles and 
+  Profile.find()
+    .populate("user", ["name", "avatar"])
+    .then((profiles) => {
+      if (!profiles) {
+        errors.noprofile = "There are no profiles";
+        return res.status(404).json(errors);
+      }
+      //display all profiles
+      res.json(profiles);
+    })
+    .catch((err) => res.status(404).json(err));
+});
+
 //@route  POST api/profile
 //@des  Create or edit  user profile
 //@access  private
@@ -94,10 +136,12 @@ router.post(
     }
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
+      //check if profile exsist.
       if (!profile) {
         errors.noprofile = "There is no profile for this user";
         return res.status(404).json(errors);
       }
+      //end of checking profile.
       const newExp = {
         title: req.body.title,
         company: req.body.company,
@@ -130,6 +174,12 @@ router.post(
     }
     //end validation part
     Profile.findOne({ user: req.user.id }).then((profile) => {
+      //check if profile exsist.
+      if (!profile) {
+        errors.noprofile = "There is no profile for this user";
+        return res.status(404).json(errors);
+      }
+      //end of checking profile
       const newEdu = {
         school: req.body.school,
         degree: req.body.degree,
