@@ -1,7 +1,11 @@
 const express = require('express');
 const passport = require('passport');
-const Profile = require('../../models/Profile');
 const router = express.Router();
+//load User and Profile model
+const User = require('../../models/User');
+const Profile = require('../../models/Profile');
+// Load Validation
+const validateProfileInput = require("../../validation/profile");
 //dummy test
 //router.get('/test', (req,res) => res.json({msg: 'profile works.'}));
 
@@ -13,7 +17,13 @@ router.post(
   passport.authenticate("jwt", {session:false}),
   (req, res) => {
     //validations
-
+    const { errors, isValid } = validateProfileInput(req.body);
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+    //end of validation
     //get data
     const profileFields = {};
     profileFields.user = req.user.id;
