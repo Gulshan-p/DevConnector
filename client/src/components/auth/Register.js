@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import classnames from 'classnames';
 import {connect} from 'react-redux';
 import {registerUser} from '../../actions/authActions';
@@ -31,10 +31,12 @@ import {registerUser} from '../../actions/authActions';
    //axios.post('api/users/register', newUser)
    //.then(res => console.log(res.data))
    //.catch(err => this.setState({errors: err.response.data}))
+   //this code is to make the axios call before writing data to redux store.
   }
   render() {
     //const errors = this.state.errors; 
-    const {errors} = this.state;
+    //const {errors} = this.state;
+    const {errors} = this.props
     return (
     <div className="register">
     <div className="container">
@@ -86,5 +88,9 @@ import {registerUser} from '../../actions/authActions';
     )
   }
 }
+const mapStateToProps = (state) => ({
+  errors: state.errors
+})
 
-export default connect(null, {registerUser})(Register);
+export default connect(mapStateToProps, {registerUser})(Register);
+//export default connect(null, {registerUser})(Register);
