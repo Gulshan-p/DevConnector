@@ -27,16 +27,21 @@ import {registerUser} from '../../actions/authActions';
      password: this.state.password,
      password2: this.state.password2,
    };
-   this.props.registerUser(newUser);
+   this.props.registerUser(newUser, this.props.history);
    //axios.post('api/users/register', newUser)
    //.then(res => console.log(res.data))
    //.catch(err => this.setState({errors: err.response.data}))
    //this code is to make the axios call before writing data to redux store.
   }
+  componentWillReceiveProps(nextProps){
+    if (nextProps.errors){
+      this.setState({errors: nextProps.errors});
+    }
+  }
   render() {
     //const errors = this.state.errors; 
-    //const {errors} = this.state;
-    const {errors} = this.props
+    const {errors} = this.state;
+    //const {errors} = this.props(no need read from props can get errors from states)
     return (
     <div className="register">
     <div className="container">
