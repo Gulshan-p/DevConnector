@@ -30,6 +30,11 @@ class Login extends Component {
   //.catch(err => this.setState({errors: err.response.data}))
   //all three lines move to login authActions
  }
+ //lifecycle
+ componentDidMount(){
+  if(this.props.auth.isAuthenticated){
+    this.props.history.push('/dashboard');
+ }}
  componentWillReceiveProps(nextProps){
    if(nextProps.auth.isAuthenticated){
      this.props.history.push('/dashboard');
