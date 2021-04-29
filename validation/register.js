@@ -13,12 +13,12 @@ if(!validator.isLength(data.name, {min:3, max:30})){
      errors.name = 'Name field is required';
    }
    //for email
-   if(isEmpty(data.email)){
-    errors.email = 'Email field is required';
-    }
    if(!validator.isEmail(data.email)) {
     errors.email = 'email is invalid';
    }
+   if(isEmpty(data.email)){
+    errors.email = 'Email field is required';
+    }
    //for password
    if(!validator.isLength(data.password, {min:6, max:30})){
     errors.password = 'password must be between 6 and 30 characters';

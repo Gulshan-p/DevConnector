@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 //import axios from 'axios';
 import classnames from 'classnames';
 import {connect} from 'react-redux';
@@ -12,7 +13,10 @@ class Login extends Component {
       password: '',
       errors: {}
     }
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
+  
   onChange(e){
     //this.setState({name: e.target.value}); to pass value only name text field
     this.setState({[e.target.name]: e.target.value});
@@ -80,6 +84,11 @@ class Login extends Component {
   }
 }
 //export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
+};
 const mapStateToProps = (state) => ({
   errors: state.errors,
   auth: state.auth
