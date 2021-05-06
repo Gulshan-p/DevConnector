@@ -88,6 +88,7 @@ export const addEducation = (eduData, history) => dispatch => {
 
 // Delete Experience
 export const deleteExperience = id => dispatch => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
   axios
     .delete(`/api/profile/experience/${id}`)
     .then(res =>
@@ -102,10 +103,11 @@ export const deleteExperience = id => dispatch => {
         payload: err.response.data
       })
     );
-};
+}};
 
 // Delete Education
 export const deleteEducation = id => dispatch => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
   axios
     .delete(`/api/profile/education/${id}`)
     .then(res =>
@@ -120,7 +122,7 @@ export const deleteEducation = id => dispatch => {
         payload: err.response.data
       })
     );
-};
+}};
 
 // Get all profiles
 export const getProfiles = () => dispatch => {

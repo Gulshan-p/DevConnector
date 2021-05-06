@@ -47,11 +47,13 @@ import {registerUser} from '../../actions/authActions';
     const {errors} = this.state;
     //const {errors} = this.props(no need read from props can get errors from states)
     return (
+    <div className="landing-inn">
+    <div className="dark text-light">
     <div className="register">
     <div className="container">
-      <div className="row">
+      <div className="row m-auto">
         <div className="col-md-8 m-auto">
-          <h1 className="display-4 text-center">Sign Up</h1>
+          <h1 className="display-4 text-center ">Sign Up</h1>
           <p className="lead text-center">Create your DevConnector account</p>
           <form noValidate onSubmit = {this.onSubmit.bind(this)}>
             <div className="form-group">
@@ -64,7 +66,7 @@ import {registerUser} from '../../actions/authActions';
             </div>
             <div className="form-group">
               <input type="email" className={classnames('form-control form-control-lg', {'is-invalid': errors.email})} placeholder="Email Address" name="email" value = {this.state.email} onChange = {this.onChange.bind(this)} />
-              <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
+              <small className="form-text text-grey">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
               {errors.email && (
                 <div className = "invalid-feedback">
                   {errors.email}
@@ -93,6 +95,8 @@ import {registerUser} from '../../actions/authActions';
         </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
     )
   }

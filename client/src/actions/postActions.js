@@ -69,6 +69,7 @@ export const getPost = id => dispatch => {
 
 // Delete Post
 export const deletePost = id => dispatch => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
   axios
     .delete(`/api/posts/${id}`)
     .then(res =>
@@ -83,7 +84,7 @@ export const deletePost = id => dispatch => {
         payload: err.response.data
       })
     );
-};
+}};
 
 // Add Like
 export const addLike = id => dispatch => {
@@ -132,6 +133,7 @@ export const addComment = (postId, commentData) => dispatch => {
 
 // Delete Comment
 export const deleteComment = (postId, commentId) => dispatch => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
   axios
     .delete(`/api/posts/comment/${postId}/${commentId}`)
     .then(res =>
@@ -146,7 +148,7 @@ export const deleteComment = (postId, commentId) => dispatch => {
         payload: err.response.data
       })
     );
-};
+}};
 
 // Set loading state
 export const setPostLoading = () => {

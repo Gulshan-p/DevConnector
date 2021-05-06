@@ -5,8 +5,8 @@ module.exports = function validatePostInput(data){
     let errors = {};
 //add validations
 //for text field
-if(!validator.isLength(data.text, {min:15, max:300})){
-  errors.text = 'text must be between 15 and 300 characters';
+if(!validator.isLength(data.text, {min:5, max:300})){
+  errors.text = 'text must be between 5 and 300 characters';
    }
    if(isEmpty(data.text)){
      errors.text = 'Text field is required';
