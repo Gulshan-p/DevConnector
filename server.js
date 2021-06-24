@@ -6,6 +6,7 @@ const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const app = express();
+var path = require('path');
 //passport config
 app.use(passport.initialize());
 require('./config/passport')(passport)

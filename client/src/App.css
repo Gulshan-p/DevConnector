@@ -51,3 +51,9 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+.nav-link{
+  padding-top: .8rem;
+}
+.createprofile{
+  height: 500px;;
+}
