@@ -9,4 +9,3 @@ Features:
 5. create/edit/delete post.
 6. comment/like/dislike someone's post.
 
-[SeeWorkingProject](https://young-citadel-41820.herokuapp.com/)
